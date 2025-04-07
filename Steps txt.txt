@@ -23,7 +23,7 @@ report_area
 
 // For LEC
 
-Lec –lpgxl –nogui
+lec –lpgxl –nogui
 setup > read library ./lib/slow.lib -liberty
 setup > read design ./lfsr.v -verilog –golden
 setup > read design ./lfsr.v -verilog –revised
