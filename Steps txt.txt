@@ -1,0 +1,29 @@
+// Steps for the synthesis process:
+
+  
+set_db lib_search_path {./lib} 
+set_db hdl_search_path {./} 
+set_db library {./lib/slow.lib} 
+
+read_hdl filename.v 
+
+elaborate 
+
+read_sdc {./filename.sdc} 
+
+syn_gen 
+syn_map 
+syn_opt 
+write_hdl > multiplier_netlist.v 
+
+report_power 
+report_timing 
+report_area 
+
+
+// For LEC
+
+Lec –lpgxl –nogui
+setup > read library ./lib/slow.lib -liberty
+setup > read design  –golden
+setup > read design (enter path for Netlist file) –revised
