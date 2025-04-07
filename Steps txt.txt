@@ -25,5 +25,18 @@ report_area
 
 Lec –lpgxl –nogui
 setup > read library ./lib/slow.lib -liberty
-setup > read design  –golden
-setup > read design (enter path for Netlist file) –revised
+setup > read design ./lfsr.v -verilog –golden
+setup > read design ./lfsr.v -verilog –revised
+set system mode lec 
+
+// In Lec mode
+
+LEC > add compared points –all
+compare
+report verification 
+tclmode 
+
+// IN  TCL mode 
+
+TCL MODE > report_unmapped_points 
+set_gui 
