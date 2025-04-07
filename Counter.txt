@@ -1,0 +1,56 @@
+module counter_8bit (
+    input clk,
+    input reset,
+    input enable,
+    output reg [7:0] count
+);
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        count <= 8'b0;
+    else if (enable)
+        count <= count + 1;
+end
+
+endmodule
+
+
+
+
+
+TestBench
+
+module tb_counter_8bit;
+
+reg clk;
+reg reset;
+reg enable;
+wire [7:0] count;
+
+counter_8bit uut (
+    .clk(clk),
+    .reset(reset),
+    .enable(enable),
+    .count(count)
+);
+
+always #5 clk = ~clk;
+
+initial begin
+
+    clk = 0;
+    reset = 1;
+    enable = 0;
+
+    #10 reset = 0;
+    
+    #10 enable = 1;
+
+    #100;
+
+
+
+    $stop;
+end
+
+endmodule

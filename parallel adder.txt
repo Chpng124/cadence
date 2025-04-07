@@ -1,0 +1,161 @@
+module adder_8bit (
+    input  [7:0] A,
+    input  [7:0] B,
+    output [7:0] SUM,
+    output       CARRY
+);
+
+assign {CARRY, SUM} = A + B;
+
+endmodule
+
+
+
+Testbench
+
+module tb_adder_8bit;
+
+reg  [7:0] A, B;
+wire [7:0] SUM;
+wire       CARRY;
+
+// Instantiate the adder
+adder_8bit uut (
+    .A(A),
+    .B(B),
+    .SUM(SUM),
+    .CARRY(CARRY)
+);
+
+initial begin
+    // Test case 1
+    A = 8'b00001111;  // 15
+    B = 8'b00000001;  // 1
+    #10;
+
+    // Test case 2
+    A = 8'b11111111;  // 255
+    B = 8'b00000001;  // 1
+    #10;
+
+    // Test case 3
+    A = 8'b10101010;  // 170
+    B = 8'b01010101;  // 85
+    #10;
+
+    // Test case 4
+    A = 8'b00000000;
+    B = 8'b00000000;
+    #10;
+
+    $stop;
+end
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+module full_adder (
+    input A,
+    input B,
+    input CIN,
+    output SUM,
+    output COUT
+);
+
+assign SUM  = A ^ B ^ CIN;
+assign COUT = (A & B) | (B & CIN) | (A & CIN);
+
+endmodule
+
+
+
+module adder_8bit_structural (
+    input  [7:0] A,
+    input  [7:0] B,
+    input        CIN,
+    output [7:0] SUM,
+    output       COUT
+);
+
+wire [7:0] carry;
+
+full_adder FA0 (A[0], B[0], CIN,     SUM[0], carry[0]);
+full_adder FA1 (A[1], B[1], carry[0], SUM[1], carry[1]);
+full_adder FA2 (A[2], B[2], carry[1], SUM[2], carry[2]);
+full_adder FA3 (A[3], B[3], carry[2], SUM[3], carry[3]);
+full_adder FA4 (A[4], B[4], carry[3], SUM[4], carry[4]);
+full_adder FA5 (A[5], B[5], carry[4], SUM[5], carry[5]);
+full_adder FA6 (A[6], B[6], carry[5], SUM[6], carry[6]);
+full_adder FA7 (A[7], B[7], carry[6], SUM[7], COUT);
+
+endmodule
+
+
+
+TB
+
+module tb_adder_8bit_structural;
+
+reg  [7:0] A, B;
+reg        CIN;
+wire [7:0] SUM;
+wire       COUT;
+
+adder_8bit_structural uut (
+    .A(A),
+    .B(B),
+    .CIN(CIN),
+    .SUM(SUM),
+    .COUT(COUT)
+);
+
+initial begin
+
+    // Test 1
+    A = 8'b00001111; B = 8'b00000001; CIN = 0; #10;
+    
+    // Test 2
+    A = 8'b11111111; B = 8'b00000001; CIN = 0; #10;
+    
+    // Test 3
+    A = 8'b10101010; B = 8'b01010101; CIN = 1; #10;
+    
+    // Test 4
+    A = 8'b00000000; B = 8'b00000000; CIN = 0; #10;
+
+    $stop;
+end
+
+endmodule
+
