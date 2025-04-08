@@ -9,11 +9,12 @@ read_hdl filename.v
 
 elaborate 
 
-read_sdc {./filename.sdc} 
+read_sdc filename.sdc
 
 syn_gen 
 syn_map 
 syn_opt 
+
 write_hdl > multiplier_netlist.v 
 
 report_power 
