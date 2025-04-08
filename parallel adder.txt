@@ -1,13 +1,21 @@
+
+// changeed correct code
+
 module adder_8bit (
     input  [7:0] A,
     input  [7:0] B,
+input cin,
     output [7:0] SUM,
-    output       CARRY
+    output       Cout 
 );
 
-assign {CARRY, SUM} = A + B;
+assign {Cout, SUM} = A + B + cin;
 
 endmodule
+
+
+
+
 
 
 
